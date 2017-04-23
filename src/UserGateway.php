@@ -11,19 +11,19 @@ class UserGateway{
 
 		try {
 			$query = "INSERT INTO users(
-									name,
-									surname,
-									email,
-									birthday,
-									gender,
-									code) 
-									VALUES(
-									:name,
-									:surname,
-									:email,
-									:birthday,
-									:gender,
-									:code)";
+						name,
+						surname,
+						email,
+						birthday,
+						gender,
+						code) 
+						VALUES(
+						:name,
+						:surname,
+						:email,
+						:birthday,
+						:gender,
+						:code)";
 			$stmt = $this->db->prepare($query);
 			$stmt->bindValue(':name', $user->getName(), PDO::PARAM_STR);
 			$stmt->bindValue(':surname', $user->getSurname(), PDO::PARAM_STR);
@@ -92,12 +92,12 @@ class UserGateway{
 	function updateUser(User $user) {
 		try {
 			$query = "UPDATE users SET 
-									  name = :name,
-									  surname = :surname,
-									  email = :email,
-									  birthday = :birthday,
-									  gender = :gender 
-									  WHERE code = :code";
+						  name = :name,
+						  surname = :surname,
+						  email = :email,
+						  birthday = :birthday,
+						  gender = :gender 
+						  WHERE code = :code";
 			$stmt = $this->db->prepare($query);
 			$stmt->bindValue(':name', $user->getName(), PDO::PARAM_STR);
 			$stmt->bindValue(':surname', $user->getSurname(), PDO::PARAM_STR);
