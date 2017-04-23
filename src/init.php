@@ -1,7 +1,7 @@
 <?php
 error_reporting(-1);
 spl_autoload_register(function ($class) {
-    // Ïîëó÷àåì ïóòü ê ôàéëó èç èìåíè êëàññà
+    // ÐŸÐ¾Ð»ÑƒÑ‡Ð°ÐµÐ¼ Ð¿ÑƒÑ‚ÑŒ Ðº Ñ„Ð°Ð¹Ð»Ñƒ Ð¸Ð· Ð¸Ð¼ÐµÐ½Ð¸ ÐºÐ»Ð°ÑÑÐ°
     $path = __DIR__ .'/'.$class . '.php';
 	
 	if (file_exists($path)) {
@@ -9,13 +9,12 @@ spl_autoload_register(function ($class) {
     }
 });
 
-/*Îáðàáîò÷èê èñêëþ÷åíèé*/
+/*ÐžÐ±Ñ€Ð°Ð±Ð¾Ñ‚Ñ‡Ð¸Ðº Ð¸ÑÐºÐ»ÑŽÑ‡ÐµÐ½Ð¸Ð¹*/
 set_exception_handler(function($exception) {
     header('HTTP/1.1 503 Service Temporarily Unavailable');
     header('Status: 503 Service Temporarily Unavailable');
     error_log($exception->__toString(), 0);
-    $pageTitle = "Îøèáêà";
+    $pageTitle = "ÃŽÃ¸Ã¨Ã¡ÃªÃ ";
     require_once '../views/error.php';
 });
-
 ?>
