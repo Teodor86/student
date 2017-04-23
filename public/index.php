@@ -14,26 +14,26 @@ if(!empty($_GET['q'])) {
 	require_once '../views/search.php';
 		
 } else {
-	  $cur_page = (!empty($_GET['page']) && is_numeric($_GET['page'])) ? $_GET['page'] : 1;
-    $order = (!empty($_GET['order'])) ? trim(strip_tags($_GET['order'])) : 'uid';
+	$cur_page = (!empty($_GET['page']) && is_numeric($_GET['page'])) ? $_GET['page'] : 1;
+	$order = (!empty($_GET['order'])) ? trim(strip_tags($_GET['order'])) : 'uid';
 	
-switch($order) {
-    case 'name': $sort = 'name'; break;
-    case 'surname': $sort = 'surname'; break;
-    case 'email': $sort = 'email'; break;
-    case 'birthday': $sort = 'birthday'; break;
-    case 'gender': $sort = 'gender'; break;
-    case 'uid': $sort = 'uid'; break;
-    default: $sort = 'uid';
-}
+	switch($order) {
+		case 'name': $sort = 'name'; break;
+		case 'surname': $sort = 'surname'; break;
+		case 'email': $sort = 'email'; break;
+		case 'birthday': $sort = 'birthday'; break;
+		case 'gender': $sort = 'gender'; break;
+		case 'uid': $sort = 'uid'; break;
+		default: $sort = 'uid';
+	}
   
-$count = $userGateway->getCountUsers();
-$perPage = 4;
+	$count = $userGateway->getCountUsers();
+	$perPage = 4;
 
-$pager = new Pager($count['total'], $perPage, 'index.php?order={order}&page={page}');
-$users = $userGateway->getUsers($sort, $pager->getOffset($cur_page), $perPage);
+	$pager = new Pager($count['total'], $perPage, 'index.php?order={order}&page={page}');
+	$users = $userGateway->getUsers($sort, $pager->getOffset($cur_page), $perPage);
 
-$pageTitle = 'Список пользователей';
-require_once '../views/index.php';
+	$pageTitle = 'Список пользователей';
+	require_once '../views/index.php';
 }
 ?>
