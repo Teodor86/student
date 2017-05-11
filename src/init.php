@@ -14,7 +14,7 @@ set_exception_handler(function($exception) {
     header('HTTP/1.1 503 Service Temporarily Unavailable');
     header('Status: 503 Service Temporarily Unavailable');
     error_log($exception->__toString(), 0);
-    $pageTitle = "Îøèáêà";
+    $pageTitle = "Ошибка";
     require_once '../views/error.php';
 });
 ?>
