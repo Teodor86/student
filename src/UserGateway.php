@@ -1,7 +1,7 @@
 <?php
-class UserGateway{
-	
-    private $db;
+class UserGateway
+{
+	private $db;
     
     function __construct(PDO $pdo) {
       $this->db = $pdo;		
