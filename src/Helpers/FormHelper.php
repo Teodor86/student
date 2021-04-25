@@ -4,9 +4,14 @@ namespace Helpers;
 
 class FormHelper
 {
-    public static function buildOptions($options, $selected = 0)
+    /**
+     * @param $options
+     * @param int $selected
+     * @return string
+     */
+    public static function buildOptions($options, $selected = 0): string
     {
-        $text = "";
+        $text = '';
 
         foreach ($options as $k => $v) {
 
@@ -17,7 +22,10 @@ class FormHelper
         return $text;
     }
 
-    public static function getYearValues()
+    /**
+     * @return array
+     */
+    public static function getYearValues(): array
     {
         $years = [];
         $currentYears = date('Y');
