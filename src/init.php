@@ -17,8 +17,22 @@ set_exception_handler(function ($exception) {
     require_once '../views/error.html';
 });
 
-$db = new Services\Db;
-$pdo = $db->getConnection();
-$userDbGateway = new Models\Users\UserDbGateway($pdo);
+$container = new \Services\DIContainer;
+
+$container->register('config', function (\Services\DIContainer $container) {
+    $config = __DIR__ . '/config.php';
+    return $config;
+});
+
+$container->register('PDO', function (\Services\DIContainer $container) {
+    // Для соединения с БД нам нужны данные из конфига, получаем их
+    // из контейнера
+    require $config = $container->get('config');
+    $dsn = "mysql:host={$config['host']};dbname={$config['dbname']};charset=utf8";
+    $pdo = new \PDO($dsn, $config['user'], $config['pass'], [
+        \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION
+    ]);
+    return $pdo;
+});
 
 ?>
