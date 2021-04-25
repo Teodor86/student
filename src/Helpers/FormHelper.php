@@ -5,7 +5,7 @@ namespace Helpers;
 class FormHelper
 {
     /**
-     * @param $option
+     * @param $options
      * @param int $selected
      * @return string
      */
