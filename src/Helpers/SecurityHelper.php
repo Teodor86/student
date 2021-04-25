@@ -4,7 +4,11 @@ namespace Helpers;
 
 class SecurityHelper
 {
-    public static function esc($text)
+    /**
+     * @param $text
+     * @return string
+     */
+    public static function esc($text) :string
     {
         return htmlspecialchars($text, ENT_QUOTES);
     }
