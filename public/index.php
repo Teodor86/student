@@ -3,6 +3,12 @@ ob_start();
 session_start();
 require_once __DIR__ . '/../src/init.php';
 
+$container->register('\Models\Users\UserDbGateway', function (\Services\DIContainer $container) {
+    return new \Models\Users\UserDbGateway($container->get('PDO'));
+});
+
+$userDbGateway = $container->get('\Models\Users\UserDbGateway');
+
 $search = (!empty($_GET['q'])) ? trim(strval($_GET['q'])) : '';
 
 $curPage = (!empty($_GET['page']) && is_numeric($_GET['page'])) ? abs((int)($_GET['page'])) : 1;
