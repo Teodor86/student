@@ -4,6 +4,9 @@ namespace Models\Users;
 
 class User
 {
+    /** @var int */
+    private $id;
+
     /** @var string */
     private $name;
 
@@ -22,9 +25,6 @@ class User
     /** @var string */
     private $code;
 
-    /** @var int */
-    private $uid;
-
     /** @var string */
     const GENDER_MALE = 'M';
 
@@ -41,6 +41,22 @@ class User
                 $this->$key = $value;
             }
         }
+    }
+
+    /**
+     * @param int $id
+     */
+    public function setUserId(int $id)
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getUserId(): ?int
+    {
+        return $this->id;
     }
 
     /**
@@ -102,7 +118,7 @@ class User
     /**
      * @return string
      */
-    public function getBirthday(): string
+    public function getBirthday(): ?string
     {
         return $this->birthday;
     }
@@ -137,22 +153,6 @@ class User
     public function getCode(): ?string
     {
         return $this->code;
-    }
-
-    /**
-     * @param int $uid
-     */
-    public function setUserId(int $uid)
-    {
-        $this->uid = $uid;
-    }
-
-    /**
-     * @return int|null
-     */
-    public function getUserId(): ?int
-    {
-        return $this->uid;
     }
 }
 
