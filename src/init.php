@@ -30,7 +30,8 @@ $container->register('PDO', function (\Services\DIContainer $container) {
     require $config = $container->get('config');
     $dsn = "mysql:host={$config['host']};dbname={$config['dbname']};charset=utf8";
     $pdo = new \PDO($dsn, $config['user'], $config['pass'], [
-        \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION
+        \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
+        \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'
     ]);
     return $pdo;
 });
