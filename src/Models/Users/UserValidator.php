@@ -2,17 +2,27 @@
 
 namespace Models\Users;
 
+use Helpers\FormHelper;
 use Models\Users\UserDbGateway;
 
 class UserValidator
 {
+    /** @var \Models\Users\UserDbGateway  */
     private $gateway;
 
+    /**
+     * UserValidator constructor.
+     * @param \Models\Users\UserDbGateway $userGateway
+     */
     public function __construct(UserDbGateway $userGateway)
     {
         $this->gateway = $userGateway;
     }
 
+    /**
+     * @param User $user
+     * @return array
+     */
     public function check(User $user)
     {
         if (empty($user->getName())) {
@@ -35,8 +45,13 @@ class UserValidator
             $errors[] = 'Эта электронная почта сушествует в базе данных.';
         }
 
-        if (empty($user->getBirthday())) {
-            $errors[] = 'Вы не выбрали год рождения';
+        if (!array_key_exists($user->getBirthday(), FormHelper::getYearValues())) {
+            $errors[] = 'Можете выбрать только из списка.';
+        }
+
+        $allowedGender = ['M', 'F'];
+        if (!in_array($user->getGender(), $allowedGender)) {
+            $errors[] = 'Можете выбрать только из списка полов.';
         }
 
         return $errors;
