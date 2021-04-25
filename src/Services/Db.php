@@ -4,6 +4,9 @@ namespace Services;
 
 class Db
 {
+    /**
+     * @return \PDO
+     */
     function getConnection()
     {
         require_once __DIR__ . '/../config.php';
@@ -15,12 +18,8 @@ class Db
             \PDO::ATTR_EMULATE_PREPARES => false,
         );
 
-        try {
-            $pdo = new \PDO($dsn, $config['user'], $config['pass'], $options);
-            return $pdo;
-        } catch (\PDOException $e) {
-            throw new \PDOException($e->getMessage(), (int)$e->getCode());
-        }
+        $pdo = new \PDO($dsn, $config['user'], $config['pass'], $options);
+        return $pdo;
     }
 }
 
