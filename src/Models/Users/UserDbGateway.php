@@ -3,18 +3,25 @@
 namespace Models\Users;
 
 use Models\Users\User;
-//use Services\Db;
 
 class UserDbGateway
 {
+    /** @var \PDO */
     private $db;
 
+    /**
+     * UserDbGateway constructor.
+     * @param \PDO $pdo
+     */
     public function __construct(\PDO $pdo)
     {
         $this->db = $pdo;
     }
 
-    public function save(User $user)
+    /**
+     * @param \Models\Users\User $user
+     */
+    public function save(User $user): void
     {
         $query = "INSERT INTO users(
                                   name,
@@ -40,7 +47,11 @@ class UserDbGateway
         $stmt->execute();
     }
 
-    public function selectUserByAuthorizationCode($code)
+    /**
+     * @param $code
+     * @return array
+     */
+    public function selectUserByAuthorizationCode($code): array
     {
         $query = "SELECT * FROM users WHERE code = :code";
         $stmt = $this->db->prepare($query);
@@ -50,7 +61,10 @@ class UserDbGateway
         return $row;
     }
 
-    public function updateUser(User $user)
+    /**
+     * @param \Models\Users\User $user
+     */
+    public function updateUser(User $user): void
     {
         $query = "UPDATE users SET 
                             name = :name,
@@ -69,7 +83,14 @@ class UserDbGateway
         $stmt->execute();
     }
 
-    public function getUsers($search, $sort, $skip, $num)
+    /**
+     * @param $search
+     * @param $sort
+     * @param $skip
+     * @param $num
+     * @return array
+     */
+    public function getUsers($search, $sort, $skip, $num): array
     {
         $searchQuery = '';
 
@@ -90,7 +111,10 @@ class UserDbGateway
         return $row;
     }
 
-    public function countOfUsers()
+    /**
+     * @return int
+     */
+    public function countOfUsers(): int
     {
         $query = "SELECT COUNT(*) as total FROM users";
         $stmt = $this->db->query($query);
@@ -98,7 +122,11 @@ class UserDbGateway
         return $row;
     }
 
-    public function search($search)
+    /**
+     * @param $search
+     * @return array
+     */
+    public function search($search): array
     {
         $query = "SELECT * FROM users WHERE name LIKE ?";
         $stmt = $this->db->prepare($query);
@@ -106,6 +134,11 @@ class UserDbGateway
         return $stmt->fetchAll();
     }
 
+    /**
+     * @param $email
+     * @param $id
+     * @return mixed
+     */
     public function checkEmail($email, $id)
     {
         if (empty($id)) {
