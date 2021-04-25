@@ -4,6 +4,7 @@ namespace Helpers;
 
 class Pager
 {
+    /** @var int */
     private $countOfUsers;
 
     /** @var int */
@@ -28,7 +29,7 @@ class Pager
     /**
      * @return int
      */
-    public function getTotalPages(): int
+    public function getTotalPages() :int
     {
         return ceil($this->countOfUsers / $this->recordsPerPage);
     }
@@ -37,7 +38,7 @@ class Pager
      * @param $curPage
      * @return int
      */
-    public function getOffset($curPage): int
+    public function getOffset($curPage) :int
     {
         return $skip = abs(($curPage - 1)) * $this->recordsPerPage;
     }
