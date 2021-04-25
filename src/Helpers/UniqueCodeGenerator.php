@@ -4,6 +4,10 @@ namespace Helpers;
 
 class UniqueCodeGenerator
 {
+    /**
+     * @param $length
+     * @return string
+     */
     public static function createCode($length)
     {
         $chars = [
