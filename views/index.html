@@ -10,7 +10,7 @@
       <?=Helpers\FlashMessage::getFlashMessage('editOfUser'); ?>
     <?php endif; ?>
     
-    <?php if(!is_null(Helpers\Authorization::getCookie())) : ?>
+    <?php if(!is_null(Helpers\Authorization::getUserByCookie())) : ?>
       <p><a href="signup.php">Редактировать пользователя</a></p>
     <?php else: ?>
       <p><a href="signup.php">Добавить пользователя</a></p>     
