@@ -6,36 +6,42 @@
 <div class="signup">
     <ul>
         <?php if(!empty($errors)) : ?>
-        <?php foreach($errors as $error) : ?>
-        <li><?=$error;?></li>
-        <?php endforeach; ?>
+            <?php foreach($errors as $error) : ?>
+                <li><?=$error;?></li>
+            <?php endforeach; ?>
         <?php endif; ?>
     </ul>
 
     <form action="signup.php" method="post">
-        <label><input type="text" class="form" name="name" required placeholder="Имя"
-                      value="<?=Helpers\SecurityHelper::esc($user->getName()); ?>"></label>
-        <label><input type="text" class="form" name="surname" required placeholder="Фамилия"
-                      value="<?=Helpers\SecurityHelper::esc($user->getSurname()); ?>"></label>
-        <label><input type="email" class="form" name="email" required placeholder="Электоронная почта"
-                      value="<?=Helpers\SecurityHelper::esc($user->getEmail()); ?>"></label>
+        <label>
+            <input type="text" class="form" name="name" required placeholder="Имя" value="<?=Helpers\SecurityHelper::esc($user->getName()); ?>">
+        </label>
+
+        <label>
+            <input type="text" class="form" name="surname" required placeholder="Фамилия" value="<?=Helpers\SecurityHelper::esc($user->getSurname()); ?>">
+        </label>
+
+        <label>
+            <input type="email" class="form" name="email" required placeholder="Электоронная почта" value="<?=Helpers\SecurityHelper::esc($user->getEmail()); ?>">
+        </label>
+
         <label>
             <select name="birthday" required>
                 <option value=''>Выберите год рождения</option>
                 <?=Helpers\FormHelper::buildOptions(Helpers\FormHelper::getYearValues(), $user->getBirthday());?>
             </select>
         </label>
+
         <label>
             <select name="gender" required>
                 <option value="">Выберите пол</option>
-                <option value="M"
-                <?php echo ($user->getGender() === Models\Users\USER::GENDER_MALE) ? 'selected' : null;
+                <option value="M" <?php echo ($user->getGender() === Models\Users\USER::GENDER_MALE) ? 'selected' : null;
                 ?>>Мужчина</option>
-                <option value="F"
-                <?php echo ($user->getGender() === Models\Users\USER::GENDER_FEMALE) ? 'selected' : null;
+                <option value="F" <?php echo ($user->getGender() === Models\Users\USER::GENDER_FEMALE) ? 'selected' : null;
                 ?>>Женщина</option>
             </select>
         </label>
+
         <input type="submit" value="Отправить">
     </form>
 </div>
