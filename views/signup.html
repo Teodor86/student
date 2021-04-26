@@ -3,13 +3,8 @@
 	<body>
 
 	<p><a href="index.php">Список пользователей</a></p>
-    <div class="signup">
-    
-		<?php if(!is_null(Helpers\Authorization::getUserByCookie())) : ?>
-			<h1>Редактировать пользователя:</h1>
-		<?php else: ?>
-			<h1>Регистрация пользователя:</h1>
-		<?php endif; ?>
+
+	<div class="signup">
 
 		<ul>
 			<?php if(!empty($errors)) : ?>
@@ -38,6 +33,7 @@
 			</label>
 			<input type="submit" value="Отправить">
 		</form>
+
 	</div>
   
 <?php require_once __DIR__ . '/inc/footer.php'; ?>
