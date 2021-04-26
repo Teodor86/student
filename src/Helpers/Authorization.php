@@ -2,8 +2,22 @@
 
 namespace Helpers;
 
+use Models\Users\UserDbGateway;
+
 class Authorization
 {
+    /** @var \Models\Users\UserDbGateway */
+    private $gateway;
+
+    /**
+     * UserValidator constructor.
+     * @param \Models\Users\UserDbGateway $userGateway
+     */
+    public function __construct(UserDbGateway $userGateway)
+    {
+        $this->gateway = $userGateway;
+    }
+
     /**
      * @param string $code
      */
@@ -13,12 +27,12 @@ class Authorization
     }
 
     /**
-     * @return string|null
+     * @return mixed
      */
-    public static function getUserByCookie() :?string
+    public function getUserByCookie(): mixed
     {
         if (isset($_COOKIE['user'])) {
-            return $_COOKIE['user'];
+            return $this->gateway->getUserByAuthorizationCode($_COOKIE['user']);
         }
         return null;
     }
