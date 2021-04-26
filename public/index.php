@@ -9,6 +9,8 @@ $container->register('\Models\Users\UserDbGateway', function (\Services\DIContai
 
 $userDbGateway = $container->get('\Models\Users\UserDbGateway');
 
+$isUserExists = new Helpers\Authorization($userDbGateway);
+
 $search = (!empty($_GET['q'])) ? trim(strval($_GET['q'])) : '';
 
 $curPage = (!empty($_GET['page']) && is_numeric($_GET['page'])) ? abs((int)($_GET['page'])) : 1;
@@ -17,10 +19,10 @@ $sort = (!empty($_GET['sort'])) ? trim(strip_tags($_GET['sort'])) : 'id';
 $allowed = ['uid', 'name', 'surname', 'email', 'birthday', 'gender'];
 $sort = in_array($sort, $allowed) ? $sort : 'id';
 
-$numberOfUsers = $userDbGateway->countOfUsers();
+$countOfUsers = $userDbGateway->countOfUsers();
 $recordsPerPage = 4;
 
-$pager = new Helpers\Pager($numberOfUsers, $recordsPerPage, 'index.php?page={page}');
+$pager = new Helpers\Pager($countOfUsers, $recordsPerPage, 'index.php?page={page}');
 $users = $userDbGateway->getUsers($search, $sort, $pager->getOffset($curPage), $recordsPerPage);
 
 $pageTitle = 'Список пользователей';
