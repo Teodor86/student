@@ -13,13 +13,13 @@ $user = new Models\Users\User;
 $unique = new Helpers\UniqueCodeGenerator;
 $validate = new Models\Users\UserValidator($userDbGateway);
 
-if (!is_null(Helpers\Authorization::getUserByCookie())) {
-    $input = $userDbGateway->selectUserByAuthorizationCode(Helpers\Authorization::getUserByCookie());
-    $user->setAttributes($input);
+$isUserExists = new Helpers\Authorization($userDbGateway);
+if ($isUserExists->getUserByCookie()) {
+    $user->setAttributes($isUserExists->getUserByCookie());
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    
+
     $input = [];
     $allowed = ['name', 'surname', 'email', 'birthday', 'gender'];
 
@@ -31,8 +31,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $errors = $validate->check($user);
 
     if (empty($errors)) {
-        if (!is_null(Helpers\Authorization::getUserByCookie())) {
-            $result = $userDbGateway->updateUser($user);
+        if ($isUserExists->getUserByCookie()) {
+            $result = $userDbGateway->update($user);
             Helpers\FlashMessage::setFlashMessage('editOfUser', 'Ваш профиль редактирирован.', 'success');
 
             if ($result !== false) {
