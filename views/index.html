@@ -1,19 +1,19 @@
 <?php require_once __DIR__ . '/inc/header.php'; ?>
-	
+
   <body>
-    
+
     <?php if(!empty($_SESSION['flash']['accountOfUser'])): ?>
       <?=Helpers\FlashMessage::getFlashMessage('accountOfUser'); ?>
     <?php endif; ?>
-    
+
     <?php if(!empty($_SESSION['flash']['editOfUser'])): ?>
       <?=Helpers\FlashMessage::getFlashMessage('editOfUser'); ?>
     <?php endif; ?>
-    
-    <?php if(!is_null(Helpers\Authorization::getUserByCookie())) : ?>
-      <p><a href="signup.php">Редактировать пользователя</a></p>
+
+    <?php if($isUserExists->getUserByCookie()) : ?>
+        <p><a href="signup.php">Редактировать пользователя</a></p>
     <?php else: ?>
-      <p><a href="signup.php">Добавить пользователя</a></p>     
+        <p><a href="signup.php">Добавить пользователя</a></p>
     <?php endif; ?>
 
     <div class="search-panel">
@@ -22,42 +22,42 @@
             <input type="submit" value="Найти">
         </form>
     </div>
-	
+
     <?php if(count($users)>0) : ?>
-      <table>
-        <tr>
-          <th><a href="<?=Helpers\SecurityHelper::esc(Helpers\ViewHelper::getSortingLink($search, $curPage, 'id'));?>">Номер</a></th>
-          <th><a href="<?=Helpers\SecurityHelper::esc(Helpers\ViewHelper::getSortingLink($search, $curPage, 'name'));?>">Имя</a></th>
-          <th><a href="<?=Helpers\SecurityHelper::esc(Helpers\ViewHelper::getSortingLink($search, $curPage, 'surname'));?>">Фамилия</th>
-          <th><a href="<?=Helpers\SecurityHelper::esc(Helpers\ViewHelper::getSortingLink($search, $curPage, 'email'));?>">Электронная почта</a></th>
-          <th><a href="<?=Helpers\SecurityHelper::esc(Helpers\ViewHelper::getSortingLink($search,$curPage, 'birthday'));?>">Год рождения</a></th>
-          <th><a href="<?=Helpers\SecurityHelper::esc(Helpers\ViewHelper::getSortingLink($search, $curPage, 'gender'));?>">Пол</a></th>
-        </tr>
-		
-      <?php foreach($users as $user): ?>
-        <tr>
-          <td><?=Helpers\SecurityHelper::esc($user['id']); ?></td>
-          <td><?=Helpers\SecurityHelper::esc($user['name']); ?></td>
-          <td><?=Helpers\SecurityHelper::esc($user['surname']); ?></td>
-          <td><?=Helpers\SecurityHelper::esc($user['email']); ?></td>
-          <td><?=Helpers\SecurityHelper::esc($user['birthday']); ?></td>
-          <td><?=Helpers\SecurityHelper::esc($user['gender']); ?></td>
-        </tr>
-      <?php endforeach; ?>
-    </table>
-  
-      <?php if($numberOfUsers > $recordsPerPage) : ?>
-        <?php for($page = 1; $page <= $pager->getTotalPages(); $page++) : ?>
-        <?php if($page == $curPage) : ?>
-              <span style="margin-left: 15px;"><?=Helpers\SecurityHelper::esc($page);?></span>
-          <?php else : ?>
-              <a style="margin-left: 15px;" href="<?=Helpers\SecurityHelper::esc(Helpers\ViewHelper::getSortingLink($search, $page, $sort))?>"><?=$page;?></a>
-          <?php endif; ?>
-        <?php endfor; ?>
+        <table>
+            <tr>
+                <th><a href="<?=Helpers\SecurityHelper::esc(Helpers\ViewHelper::getSortingLink($search, $curPage, 'id'));?>">Номер</a></th>
+                <th><a href="<?=Helpers\SecurityHelper::esc(Helpers\ViewHelper::getSortingLink($search, $curPage, 'name'));?>">Имя</a></th>
+                <th><a href="<?=Helpers\SecurityHelper::esc(Helpers\ViewHelper::getSortingLink($search, $curPage, 'surname'));?>">Фамилия</th>
+                <th><a href="<?=Helpers\SecurityHelper::esc(Helpers\ViewHelper::getSortingLink($search, $curPage, 'email'));?>">Электронная почта</a></th>
+                <th><a href="<?=Helpers\SecurityHelper::esc(Helpers\ViewHelper::getSortingLink($search,$curPage, 'birthday'));?>">Год рождения</a></th>
+                 <th><a href="<?=Helpers\SecurityHelper::esc(Helpers\ViewHelper::getSortingLink($search, $curPage, 'gender'));?>">Пол</a></th>
+            </tr>
+
+            <?php foreach($users as $user): ?>
+                <tr>
+                    <td><?=Helpers\SecurityHelper::esc($user['id']); ?></td>
+                    <td><?=Helpers\SecurityHelper::esc($user['name']); ?></td>
+                    <td><?=Helpers\SecurityHelper::esc($user['surname']); ?></td>
+                    <td><?=Helpers\SecurityHelper::esc($user['email']); ?></td>
+                    <td><?=Helpers\SecurityHelper::esc($user['birthday']); ?></td>
+                    <td><?=Helpers\SecurityHelper::esc($user['gender']); ?></td>
+                </tr>
+            <?php endforeach; ?>
+        </table>
+
+      <?php if($countOfUsers > $recordsPerPage) : ?>
+            <?php for($page = 1; $page <= $pager->getTotalPages(); $page++) : ?>
+                <?php if($page == $curPage) : ?>
+                     <span style="margin-left: 15px;"><?=Helpers\SecurityHelper::esc($page);?></span>
+                <?php else : ?>
+                     <a style="margin-left: 15px;" href="<?=Helpers\SecurityHelper::esc(Helpers\ViewHelper::getSortingLink($search, $page, $sort))?>"><?=$page;?></a>
+                <?php endif; ?>
+            <?php endfor; ?>
       <?php endif; ?>
-	
+
 	<?php else: ?>
-      <p>В базе данных нет пользователей.</p>
+        <p>В базе данных нет пользователей.</p>
 	<?php endif; ?>
-	
+
 <?php require_once __DIR__ . '/inc/footer.php'; ?>
