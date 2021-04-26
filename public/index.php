@@ -20,7 +20,7 @@ $allowed = ['uid', 'name', 'surname', 'email', 'birthday', 'gender'];
 $sort = in_array($sort, $allowed) ? $sort : 'id';
 
 $countOfUsers = $userDbGateway->countOfUsers();
-$recordsPerPage = 4;
+$recordsPerPage = 2;
 
 $pager = new Helpers\Pager($countOfUsers, $recordsPerPage, 'index.php?page={page}');
 $users = $userDbGateway->getUsers($search, $sort, $pager->getOffset($curPage), $recordsPerPage);
