@@ -49,9 +49,9 @@ class UserDbGateway
 
     /**
      * @param $code
-     * @return array
+     * @return mixed
      */
-    public function selectUserByAuthorizationCode($code): array
+    public function getUserByAuthorizationCode($code): mixed
     {
         $query = "SELECT * FROM users WHERE code = :code";
         $stmt = $this->db->prepare($query);
@@ -64,7 +64,7 @@ class UserDbGateway
     /**
      * @param \Models\Users\User $user
      */
-    public function updateUser(User $user): void
+    public function update(User $user): void
     {
         $query = "UPDATE users SET 
                             name = :name,
@@ -139,7 +139,7 @@ class UserDbGateway
      * @param $id
      * @return mixed
      */
-    public function checkEmail($email, $id)
+    public function isUsedEmail($email, $id)
     {
         if (empty($id)) {
             $id = 0;
