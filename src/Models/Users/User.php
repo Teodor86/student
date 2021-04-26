@@ -34,7 +34,7 @@ class User
     /**
      * @param array $input
      */
-    public function setAttributes(array $input): void
+    public function setAttributes(array $input)
     {
         foreach ($input as $key => $value) {
             if (property_exists("Models\Users\User", $key)) {
