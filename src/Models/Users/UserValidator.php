@@ -7,7 +7,7 @@ use Models\Users\UserDbGateway;
 
 class UserValidator
 {
-    /** @var \Models\Users\UserDbGateway  */
+    /** @var \Models\Users\UserDbGateway */
     private $gateway;
 
     /**
@@ -41,7 +41,7 @@ class UserValidator
             $errors[] = 'Напишите свою электронную почту.';
         } elseif (!filter_var($user->getEmail(), FILTER_VALIDATE_EMAIL)) {
             $errors[] = 'Это не правильная электронная почта. Напишите правильную.';
-        } elseif ($this->gateway->checkEmail($user->getEmail(), $user->getUserId())) {
+        } elseif ($this->gateway->isUsedEmail($user->getEmail(), $user->getUserId())) {
             $errors[] = 'Эта электронная почта сушествует в базе данных.';
         }
 
