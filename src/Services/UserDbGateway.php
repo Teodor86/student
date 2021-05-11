@@ -1,6 +1,6 @@
 <?php
 
-namespace Models\Users;
+namespace Services;
 
 use Models\Users\User;
 
@@ -9,18 +9,11 @@ class UserDbGateway
     /** @var \PDO */
     private $db;
 
-    /**
-     * UserDbGateway constructor.
-     * @param \PDO $pdo
-     */
     public function __construct(\PDO $pdo)
     {
         $this->db = $pdo;
     }
 
-    /**
-     * @param \Models\Users\User $user
-     */
     public function save(User $user): void
     {
         $query = "INSERT INTO users(
@@ -47,23 +40,6 @@ class UserDbGateway
         $stmt->execute();
     }
 
-    /**
-     * @param $code
-     * @return mixed
-     */
-    public function getUserByAuthorizationCode($code): mixed
-    {
-        $query = "SELECT * FROM users WHERE code = :code";
-        $stmt = $this->db->prepare($query);
-        $stmt->bindValue(':code', $code, \PDO::PARAM_STR);
-        $stmt->execute();
-        $row = $stmt->fetch(\PDO::FETCH_ASSOC);
-        return $row;
-    }
-
-    /**
-     * @param \Models\Users\User $user
-     */
     public function update(User $user): void
     {
         $query = "UPDATE users SET 
@@ -84,22 +60,35 @@ class UserDbGateway
     }
 
     /**
-     * @param $search
-     * @param $sort
-     * @param $skip
-     * @param $num
+     * @return User|null
+     */
+    public function getUserByAuthorizationCode(string $code): ?User
+    {
+        $query = "SELECT * FROM users WHERE code = :code";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindValue(':code', $code, \PDO::PARAM_STR);
+        $stmt->execute();
+        $entities = $stmt->fetchAll(\PDO::FETCH_CLASS, User::class);
+        return $entities ? $entities[0] : null;
+    }
+
+    /**
      * @return array
      */
-    public function getUsers($search, $sort, $skip, $num): array
+    public function getUsers(string $search, string $sort, int $skip, int $num): array
     {
         $searchQuery = '';
 
         if (!empty($search)) {
-            $searchQuery = 'WHERE name LIKE :search';
+            $searchQuery = 'WHERE CONCAT(name, "", surname, "", email) LIKE :search';
             $s = "%$search%";
         }
 
-        $query = "SELECT id, name, surname, email, birthday, gender FROM users $searchQuery ORDER BY $sort LIMIT :skip, :num";
+        $allowed = ['uid', 'name', 'surname', 'email', 'birthday', 'gender'];
+        $sort = in_array($sort, $allowed) ? $sort : 'id';
+
+        $query = "SELECT id, name, surname, email, birthday, gender FROM users $searchQuery 
+        ORDER BY $sort LIMIT :skip, :num";
         $stmt = $this->db->prepare($query);
         $stmt->bindValue(':skip', (int)$skip, \PDO::PARAM_INT);
         $stmt->bindValue(':num', (int)$num, \PDO::PARAM_INT);
@@ -107,8 +96,7 @@ class UserDbGateway
             $stmt->bindValue(":search", $s);
         }
         $stmt->execute();
-        $row = $stmt->fetchAll();
-        return $row;
+        return $stmt->fetchAll(\PDO::FETCH_CLASS, User::class);
     }
 
     /**
@@ -118,15 +106,13 @@ class UserDbGateway
     {
         $query = "SELECT COUNT(*) as total FROM users";
         $stmt = $this->db->query($query);
-        $row = $stmt->fetchColumn();
-        return $row;
+        return $stmt->fetchColumn();
     }
 
     /**
-     * @param $search
      * @return array
      */
-    public function search($search): array
+    public function search(string $search): array
     {
         $query = "SELECT * FROM users WHERE name LIKE ?";
         $stmt = $this->db->prepare($query);
@@ -135,11 +121,9 @@ class UserDbGateway
     }
 
     /**
-     * @param $email
-     * @param $id
-     * @return mixed
+     * @return bool
      */
-    public function isUsedEmail($email, $id)
+    public function isUsedEmail(string $email, ?int $id): bool
     {
         if (empty($id)) {
             $id = 0;
@@ -151,6 +135,6 @@ class UserDbGateway
         $stmt->bindValue(':id', $id, \PDO::PARAM_INT);
         $stmt->execute();
         $row = $stmt->fetch(\PDO::FETCH_ASSOC);
-        return $row;
+        return boolval($row);
     }
 }
