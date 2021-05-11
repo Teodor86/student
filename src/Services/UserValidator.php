@@ -1,30 +1,28 @@
 <?php
 
-namespace Models\Users;
+namespace Services;
 
 use Helpers\FormHelper;
-use Models\Users\UserDbGateway;
+use Services\UserDbGateway;
+use Models\Users\User;
 
 class UserValidator
 {
-    /** @var \Models\Users\UserDbGateway */
+    /** @var \Services\UserDbGateway  */
     private $gateway;
 
-    /**
-     * UserValidator constructor.
-     * @param \Models\Users\UserDbGateway $userGateway
-     */
     public function __construct(UserDbGateway $userGateway)
     {
         $this->gateway = $userGateway;
     }
 
     /**
-     * @param User $user
      * @return array
      */
     public function check(User $user): array
     {
+        $errors = [];
+
         if (empty($user->getName())) {
             $errors[] = 'Имя должно быть заполнено';
         } elseif (!preg_match('/^([А-Яа-я-]{3,30})$/u', $user->getName())) {
@@ -46,7 +44,7 @@ class UserValidator
         }
 
         if (!array_key_exists($user->getBirthday(), FormHelper::getYearValues())) {
-            $errors[] = 'Можете выбрать только из списка.';
+            $errors[] = 'Можете выбрать только из списка годов.';
         }
 
         $allowedGender = ['M', 'F'];
