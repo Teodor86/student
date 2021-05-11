@@ -4,12 +4,7 @@ namespace Helpers;
 
 class FlashMessage
 {
-    /**
-     * @param string $name
-     * @param string $text
-     * @param string $status
-     */
-    public static function setFlashMessage(string $name, string $text, string $status)
+    public static function set(string $name, string $text, string $status): void
     {
         $_SESSION['flash'][$name] = [
             'text' => $text,
@@ -18,20 +13,30 @@ class FlashMessage
     }
 
     /**
-     * @param string $name
-     * @return string
+     * @return bool
      */
-    public static function getFlashMessage(string $name): string
+    public static function has(string $key): bool
+    {
+        if (!empty($_SESSION['flash'][$key])) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * @return array|null
+     */
+    public static function get(string $name): ?array
     {
         if (isset($_SESSION['flash'][$name])) {
             $data = $_SESSION['flash'][$name];
             unset($_SESSION['flash'][$name]);
 
-            return $msg = "<p class=" . SecurityHelper::esc($data['status']) . ">" . SecurityHelper::esc($data['text']) . "</p>";
+            return [
+                "status" => $data['status'],
+                "text" => $data['text']
+            ];
         }
-
-        return '';
+        return null;
     }
 }
-
-?>
