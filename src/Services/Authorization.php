@@ -21,7 +21,7 @@ class Authorization
     }
 
     /**
-     * @return array|null
+     * @return User|null
      */
     public function getUserByToken(): ?User
     {
@@ -31,5 +31,3 @@ class Authorization
         return null;
     }
 }
-
-?>
