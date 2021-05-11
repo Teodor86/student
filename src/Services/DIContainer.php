@@ -4,18 +4,14 @@ namespace Services;
 
 class DIContainer
 {
-    /** @var array */
-    private $registered = [];
+    private array $registered = [];
 
-    /** @var array */
-    private $services = [];
+    private array $services = [];
 
     /**
-     * @param $name
-     * @param callable $factory
      * @throws Exception
      */
-    public function register($name, callable $factory)
+    public function register(string $name, callable $factory)
     {
         if (!isset($this->registered[$name])) {
             $this->registered[$name] = $factory;
@@ -25,13 +21,11 @@ class DIContainer
     }
 
     /**
-     * @param $name
      * @return mixed
      * @throws Exception
      */
     public function get($name)
     {
-
         if (!isset($this->registered[$name])) {
             throw new Exception("Unregistered service {$name}");
         } elseif (!isset($this->services[$name])) {
