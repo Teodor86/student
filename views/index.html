@@ -2,15 +2,21 @@
 
   <body>
 
-    <?php if(!empty($_SESSION['flash']['accountOfUser'])): ?>
-      <?=Helpers\FlashMessage::getFlashMessage('accountOfUser'); ?>
+    <?php if (Helpers\FlashMessage::has('accountOfUser')): ?>
+        <?php $msg = Helpers\FlashMessage::get('accountOfUser'); ?>
+        <?php if (isset($msg)): ?>
+            <p class="<?=$msg['status']; ?>"><?= $msg['text']; ?></p>
+        <?php endif; ?>
     <?php endif; ?>
 
-    <?php if(!empty($_SESSION['flash']['editOfUser'])): ?>
-      <?=Helpers\FlashMessage::getFlashMessage('editOfUser'); ?>
+    <?php if (Helpers\FlashMessage::has('editOfUser')): ?>
+        <?php $msg = Helpers\FlashMessage::get('editOfUser'); ?>
+        <?php if (isset($msg)): ?>
+            <p class="<?=$msg['status']; ?>"><?=$msg['text']; ?></p>
+        <?php endif; ?>
     <?php endif; ?>
 
-    <?php if($isUserExists->getUserByCookie()) : ?>
+    <?php if($authHelper->getUserByToken()): ?>
         <p><a href="signup.php">Редактировать пользователя</a></p>
     <?php else: ?>
         <p><a href="signup.php">Добавить пользователя</a></p>
@@ -18,38 +24,38 @@
 
     <div class="search-panel">
         <form action="index.php" method="GET">
-            <input type="search" name="q" placeholder="Искать">
+            <input type="search" name="q" value="<?php echo $q = $_GET['q'] ?? ''; ?>" placeholder="Искать">
             <input type="submit" value="Найти">
         </form>
     </div>
 
-    <?php if(count($users)>0) : ?>
+    <?php if (count($users) > 0) : ?>
         <table>
             <tr>
-                <th><a href="<?=Helpers\SecurityHelper::esc(Helpers\ViewHelper::getSortingLink($search, $curPage, 'id'));?>">Номер</a></th>
-                <th><a href="<?=Helpers\SecurityHelper::esc(Helpers\ViewHelper::getSortingLink($search, $curPage, 'name'));?>">Имя</a></th>
-                <th><a href="<?=Helpers\SecurityHelper::esc(Helpers\ViewHelper::getSortingLink($search, $curPage, 'surname'));?>">Фамилия</th>
-                <th><a href="<?=Helpers\SecurityHelper::esc(Helpers\ViewHelper::getSortingLink($search, $curPage, 'email'));?>">Электронная почта</a></th>
-                <th><a href="<?=Helpers\SecurityHelper::esc(Helpers\ViewHelper::getSortingLink($search,$curPage, 'birthday'));?>">Год рождения</a></th>
-                 <th><a href="<?=Helpers\SecurityHelper::esc(Helpers\ViewHelper::getSortingLink($search, $curPage, 'gender'));?>">Пол</a></th>
+                <th><a href="<?=Helpers\SecurityHelper::esc(Helpers\ViewHelper::getSortingLink($search, 1, 'id')); ?>">Номер</a></th>
+                <th><a href="<?=Helpers\SecurityHelper::esc(Helpers\ViewHelper::getSortingLink($search, 1, 'name')); ?>">Имя</a></th>
+                <th><a href="<?=Helpers\SecurityHelper::esc(Helpers\ViewHelper::getSortingLink($search, 1, 'surname')); ?>">Фамилия</th>
+                <th><a href="<?=Helpers\SecurityHelper::esc(Helpers\ViewHelper::getSortingLink($search, 1, 'email')); ?>">Электронная почта</a></th>
+                <th><a href="<?=Helpers\SecurityHelper::esc(Helpers\ViewHelper::getSortingLink($search, 1, 'birthday')); ?>">Год рождения</a></th>
+                <th><a href="<?=Helpers\SecurityHelper::esc(Helpers\ViewHelper::getSortingLink($search, 1, 'gender')); ?>">Пол</a></th>
             </tr>
 
-            <?php foreach($users as $user): ?>
+            <?php foreach ($users as $user): ?>
                 <tr>
-                    <td><?=Helpers\SecurityHelper::esc($user['id']); ?></td>
-                    <td><?=Helpers\SecurityHelper::esc($user['name']); ?></td>
-                    <td><?=Helpers\SecurityHelper::esc($user['surname']); ?></td>
-                    <td><?=Helpers\SecurityHelper::esc($user['email']); ?></td>
-                    <td><?=Helpers\SecurityHelper::esc($user['birthday']); ?></td>
-                    <td><?=Helpers\SecurityHelper::esc($user['gender']); ?></td>
+                    <td><?=Helpers\SecurityHelper::esc($user->getUserId()); ?></td>
+                    <td><?=Helpers\SecurityHelper::esc($user->getName()); ?></td>
+                    <td><?=Helpers\SecurityHelper::esc($user->getSurname()); ?></td>
+                    <td><?=Helpers\SecurityHelper::esc($user->getEmail()); ?></td>
+                    <td><?=Helpers\SecurityHelper::esc($user->getBirthday()); ?></td>
+                    <td><?=Helpers\SecurityHelper::esc($user->getGender()); ?></td>
                 </tr>
             <?php endforeach; ?>
         </table>
 
-      <?php if($countOfUsers > $recordsPerPage) : ?>
-            <?php for($page = 1; $page <= $pager->getTotalPages(); $page++) : ?>
-                <?php if($page == $curPage) : ?>
-                     <span style="margin-left: 15px;"><?=Helpers\SecurityHelper::esc($page);?></span>
+      <?php if ($countOfUsers > $recordsPerPage) : ?>
+            <?php for ($page = 1; $page <= $pager->getTotalPages(); $page++) : ?>
+                <?php if ($page == $curPage) : ?>
+                     <span style="margin-left: 15px;"><?=Helpers\SecurityHelper::esc($page); ?></span>
                 <?php else : ?>
                      <a style="margin-left: 15px;" href="<?=Helpers\SecurityHelper::esc(Helpers\ViewHelper::getSortingLink($search, $page, $sort))?>"><?=$page;?></a>
                 <?php endif; ?>

@@ -14,15 +14,15 @@
 
     <form action="signup.php" method="post">
         <label>
-            <input type="text" class="form" name="name" required placeholder="Имя" value="<?=Helpers\SecurityHelper::esc($user->getName()); ?>">
+            <input type="text" class="form" name="name" required placeholder="Имя" value="<?= Helpers\SecurityHelper::esc($user->getName()) ?? ''; ?>">
         </label>
 
         <label>
-            <input type="text" class="form" name="surname" required placeholder="Фамилия" value="<?=Helpers\SecurityHelper::esc($user->getSurname()); ?>">
+            <input type="text" class="form" name="surname" required placeholder="Фамилия" value="<?= Helpers\SecurityHelper::esc($user->getSurname()) ?? ''; ?>">
         </label>
 
         <label>
-            <input type="email" class="form" name="email" required placeholder="Электоронная почта" value="<?=Helpers\SecurityHelper::esc($user->getEmail()); ?>">
+            <input type="email" class="form" name="email" required placeholder="Электоронная почта" value="<?= Helpers\SecurityHelper::esc($user->getEmail()) ?? ''; ?>">
         </label>
 
         <label>
