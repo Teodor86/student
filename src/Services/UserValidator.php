@@ -23,7 +23,7 @@ class UserValidator
      * @param User $user
      * @return array
      */
-    public function check(User $user)
+    public function check(User $user): array
     {
         if (empty($user->getName())) {
             $errors[] = 'Имя должно быть заполнено';
@@ -57,5 +57,3 @@ class UserValidator
         return $errors;
     }
 }
-
-?>

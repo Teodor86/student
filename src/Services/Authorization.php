@@ -2,7 +2,7 @@
 
 namespace Helpers;
 
-use Models\Users\UserDbGateway;
+use Services\UserDbGateway;
 
 class Authorization
 {
@@ -11,7 +11,7 @@ class Authorization
 
     /**
      * UserValidator constructor.
-     * @param \Models\Users\UserDbGateway $userGateway
+     * @param \Services\UserDbGateway $userGateway
      */
     public function __construct(UserDbGateway $userGateway)
     {
