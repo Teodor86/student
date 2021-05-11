@@ -5,10 +5,9 @@ namespace Helpers;
 class UniqueCodeGenerator
 {
     /**
-     * @param $length
      * @return string
      */
-    public static function createCode($length)
+    public static function createCode($length): string
     {
         $chars = [
             'a', 'b', 'c', 'd', 'e', 'f',
@@ -30,12 +29,9 @@ class UniqueCodeGenerator
         $uniqueCode = '';
 
         for ($i = 0; $i < $length; $i++) {
-            $randomChars = mt_rand(0, $size);
+            $randomChars = random_int(0, $size);
             $uniqueCode .= $chars[$randomChars];
         }
-
         return $uniqueCode;
     }
 }
-
-?>

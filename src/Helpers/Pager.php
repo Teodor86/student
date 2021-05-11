@@ -4,21 +4,10 @@ namespace Helpers;
 
 class Pager
 {
-    /** @var int */
-    private $countOfUsers;
+    private int $countOfUsers;
+    private int $recordsPerPage;
+    private string $link;
 
-    /** @var int */
-    private $recordsPerPage;
-
-    /** @var string */
-    private $link;
-
-    /**
-     * Pager constructor.
-     * @param int $countOfUsers
-     * @param int $recordsPerPage
-     * @param string $link
-     */
     public function __construct(int $countOfUsers, int $recordsPerPage, string $link)
     {
         $this->countOfUsers = $countOfUsers;
@@ -35,7 +24,6 @@ class Pager
     }
 
     /**
-     * @param $curPage
      * @return int
      */
     public function getOffset($curPage) :int
@@ -44,7 +32,6 @@ class Pager
     }
 
     /**
-     * @param $page
      * @return string
      */
     public function getLinkForPage($page): string
@@ -52,5 +39,3 @@ class Pager
         return $link = str_replace('{page}', $page, $this->link);
     }
 }
-
-?>

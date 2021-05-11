@@ -2,23 +2,19 @@
 
 namespace Helpers;
 
+
 class FormHelper
 {
     /**
-     * @param $options
-     * @param int $selected
      * @return string
      */
-    public static function buildOptions($options, $selected = 0): string
+    public static function buildOptions(array $options, ?string $selected = '0'): string
     {
         $text = '';
-
         foreach ($options as $k => $v) {
-
-            $op = ($k == $selected) ? 'selected="selected"' : null;
-            $text .= "<option value='$k' $op>" . $v . "</option>\n\t\t\t\t\t";
+            $op = ($k == $selected) ? ' selected="selected"' : null;
+            $text .= "<option value=" . SecurityHelper::esc($k) . $op . ">" . SecurityHelper::esc($v) . "</option>\n";
         }
-
         return $text;
     }
 
@@ -33,9 +29,6 @@ class FormHelper
         for ($i = $currentYears - 10; $i > 1919; $i--) {
             $years[$i] = $i;
         }
-
         return $years;
     }
 }
-
-?>

@@ -5,13 +5,10 @@ namespace Helpers;
 class SecurityHelper
 {
     /**
-     * @param $text
      * @return string
      */
-    public static function esc($text) :string
+    public static function esc($dirty): string
     {
-        return htmlspecialchars($text, ENT_QUOTES);
+        return htmlspecialchars($dirty, ENT_QUOTES, 'UTF-8');
     }
 }
-
-?>
