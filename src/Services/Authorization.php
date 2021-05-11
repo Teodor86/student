@@ -1,35 +1,29 @@
 <?php
 
-namespace Helpers;
+namespace Services;
 
 use Services\UserDbGateway;
+use Models\Users\User;
 
 class Authorization
 {
-    /** @var \Models\Users\UserDbGateway */
+    /** @var \Services\UserDbGateway */
     private $gateway;
 
-    /**
-     * UserValidator constructor.
-     * @param \Services\UserDbGateway $userGateway
-     */
     public function __construct(UserDbGateway $userGateway)
     {
         $this->gateway = $userGateway;
     }
 
-    /**
-     * @param string $code
-     */
-    public static function setAuthorize(string $code): void
+    public static function createToken(User $user): void
     {
-        setcookie('user', $code, time() + 60 * 60 * 24 * 365, '/', null, null, true);
+        setcookie('user', $user->getCode(), time() + 60 * 60 * 24 * 365, '/', null, null, true);
     }
 
     /**
-     * @return mixed
+     * @return array|null
      */
-    public function getUserByCookie(): mixed
+    public function getUserByToken(): ?User
     {
         if (isset($_COOKIE['user'])) {
             return $this->gateway->getUserByAuthorizationCode($_COOKIE['user']);
